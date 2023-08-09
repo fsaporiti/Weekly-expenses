@@ -1,0 +1,29 @@
+form {
+    text-align: center;
+}
+
+.transactionType, .mb-3    {
+    display: flex;
+    justify-content: center;
+}
+
+.form-label{
+    padding-right: 15px;
+}
+
+.form-control{
+    width: 35%;
+}
+
+.form-check{
+    padding-left: 2.5rem;
+}
+
+tbody, td, tfoot, th, thead, tr {
+    border-width: thin;
+}
+
+.table {
+    width: 55%;
+    margin: 20px auto;
+} 
