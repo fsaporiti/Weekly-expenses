@@ -34,15 +34,26 @@ const saveTransactionObj = (transactionObj) => {
     localStorage.setItem("transactionData", arrayToJSON) //save my array-JSON to LStorage 
 }
 
-
 form.addEventListener ("submit", (e) => {
     e.preventDefault()
     let transactionFormData = new FormData(form)
     let transactionObj = convertFormDataToObj(transactionFormData)
     saveTransactionObj (transactionObj) // save data in LStorage
     insertRowTable(transactionObj) // insert ROW with form's data
- 
-    })
+    form.reset()
+})
+
+document.addEventListener("DOMContentLoaded", (e) => {
+    let transactionObjArray = JSON.parse(localStorage.getItem("transactionData")) 
+    if (transactionObjArray) {
+            transactionObjArray.forEach(element => {
+            insertRowTable(element)
+                console.log(element)     
+            });
+    } else {
+        return
+    }
+})
 
 
    
