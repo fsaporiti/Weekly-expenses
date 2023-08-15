@@ -11,6 +11,22 @@ const insertRowTable = (transactionObj) => {
     newCellRef.textContent = transactionObj["formAmount"]
     newCellRef = newRowRef.insertCell(3)
     newCellRef.textContent = transactionObj["formCategory"]
+    let deleteCell = newRowRef.insertCell(4)
+    let deleteButton = document.createElement("button")
+    deleteButton.textContent = "Delete"
+    deleteCell.appendChild(deleteButton)
+
+    deleteButton.addEventListener("click", (e) => {
+        e.target.parentNode.parentNode.remove()
+    })
+
+}
+
+const newIdNumber = () => {
+    let formId = localStorage.getItem("lastId") || "-1" // getting last id from localstorage
+    let newTransactionId = JSON.parse(formId) + 1
+    localStorage.setItem("lastId", JSON.stringify(newTransactionId))
+    return newTransactionId
 }
 
 const convertFormDataToObj = (transactionFormData) => {
@@ -18,12 +34,14 @@ const convertFormDataToObj = (transactionFormData) => {
     let formDescription = transactionFormData.get("formDescription")
     let formAmount = transactionFormData.get("formAmount")
     let formCategory = transactionFormData.get("formCategory")
+    let formId = newIdNumber()
     //return obj with the content in the form
     return { 
         "formIncomeExpense": formIncomeExpense,
         "formDescription": formDescription,
         "formAmount": formAmount,
-        "formCategory": formCategory
+        "formCategory": formCategory,
+        "formId": formId
     }
 }
 
