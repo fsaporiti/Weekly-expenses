@@ -3,6 +3,7 @@ const form = document.querySelector("#transactionForm")
 const insertRowTable = (transactionObj) => {
     let tableRef = document.querySelector("#table")
     let newRowRef = tableRef.insertRow(-1) //insert row 
+    newRowRef.setAttribute("id", transactionObj["formId"]) //insert row with attribute ID
     let newCellRef = newRowRef.insertCell(0)  //insert cell (in the positions 0, 1, 2, 3)
     newCellRef.textContent = transactionObj["formIncomeExpense"] //add the text put in the form in each cell
     newCellRef = newRowRef.insertCell(1)
@@ -16,8 +17,12 @@ const insertRowTable = (transactionObj) => {
     deleteButton.textContent = "Delete"
     deleteCell.appendChild(deleteButton)
 
+
     deleteButton.addEventListener("click", (e) => {
-        e.target.parentNode.parentNode.remove()
+        let transactionParentNode = e.target.parentNode.parentNode
+        let transactionId = transactionParentNode.getAttribute("id")
+        transactionParentNode.remove() // delete from HTML
+        deleteTransactionObj(transactionId) // delete line from local storage
     })
 
 }
@@ -50,6 +55,16 @@ const saveTransactionObj = (transactionObj) => {
     transactionArray.push(transactionObj)
     let arrayToJSON = JSON.stringify(transactionArray) // convert array to JSON
     localStorage.setItem("transactionData", arrayToJSON) //save my array-JSON to LStorage 
+}
+
+const deleteTransactionObj = (formId) => { //delete line using formID
+    let transactionObjArray = JSON.parse(localStorage.getItem("transactionData")) 
+    let transactionIndexArray = transactionObjArray.findIndex(element => { 
+        element.formId === formId //search the line through the id
+    })
+    transactionObjArray.splice(transactionIndexArray, 1) // delete line after find it with findIndex = formId
+    let arrayToJSON = JSON.stringify(transactionObjArray) 
+    localStorage.setItem("transactionData", arrayToJSON)
 }
 
 form.addEventListener ("submit", (e) => {
