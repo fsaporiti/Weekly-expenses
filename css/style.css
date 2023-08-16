@@ -11,7 +11,7 @@ form {
     padding-right: 15px;
 }
 
-.form-control{
+.form-control, .form-select{
     width: 35%;
 }
 
