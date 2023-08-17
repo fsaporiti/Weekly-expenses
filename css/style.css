@@ -1,3 +1,5 @@
+
+
 form {
     text-align: center;
 }
@@ -12,7 +14,7 @@ form {
 }
 
 .form-control, .form-select{
-    width: 35%;
+    width: 65%;
 }
 
 .form-check{

@@ -41,7 +41,7 @@ const convertFormDataToObj = (transactionFormData) => {
     let formCategory = transactionFormData.get("formCategory")
     let formId = newIdNumber()
     //return obj with the content in the form
-    return { 
+    return {
         "formIncomeExpense": formIncomeExpense,
         "formDescription": formDescription,
         "formAmount": formAmount,
@@ -58,35 +58,47 @@ const saveTransactionObj = (transactionObj) => {
 }
 
 const deleteTransactionObj = (formId) => { //delete line using formID
-    let transactionObjArray = JSON.parse(localStorage.getItem("transactionData")) 
-    let transactionIndexArray = transactionObjArray.findIndex(element => { 
-        element.formId === formId //search the line through the id
+    let transactionObjArray = JSON.parse(localStorage.getItem("transactionData"))
+    let transactionIndexArray = transactionObjArray.findIndex(element => {
+        element.formId == formId //search the line through the id
     })
     transactionObjArray.splice(transactionIndexArray, 1) // delete line after find it with findIndex = formId
-    let arrayToJSON = JSON.stringify(transactionObjArray) 
+    let arrayToJSON = JSON.stringify(transactionObjArray)
     localStorage.setItem("transactionData", arrayToJSON)
 }
 
-form.addEventListener ("submit", (e) => {
+function insertCategory(categoryName) {
+    const selectElement = document.querySelector("#category")
+    let htmlToInsert = `<option> ${categoryName} </option>`
+    selectElement.insertAdjacentHTML("beforeend", htmlToInsert)
+}
+
+const category = () => {
+    let allCategories = ["Food", "Work", "House", "Fun", "Others"]
+    for (const oneCategory of allCategories) {
+        insertCategory(oneCategory)
+    }
+}
+
+form.addEventListener("submit", (e) => {
     e.preventDefault()
     let transactionFormData = new FormData(form)
     let transactionObj = convertFormDataToObj(transactionFormData)
-    saveTransactionObj (transactionObj) // save data in LStorage
+    saveTransactionObj(transactionObj) // save data in LStorage
     insertRowTable(transactionObj) // insert ROW with form's data
     form.reset()
 })
 
 document.addEventListener("DOMContentLoaded", (e) => {
-    let transactionObjArray = JSON.parse(localStorage.getItem("transactionData")) 
+    category()
+    let transactionObjArray = JSON.parse(localStorage.getItem("transactionData"))
     if (transactionObjArray) {
-            transactionObjArray.forEach(element => {
+        transactionObjArray.forEach(element => {
             insertRowTable(element)
-                console.log(element)     
-            });
+        });
     } else {
         return
     }
 })
 
 
-   
