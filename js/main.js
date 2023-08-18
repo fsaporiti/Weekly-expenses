@@ -80,13 +80,40 @@ const category = () => {
     }
 }
 
+const isValidTransactionForm = (transactionObj) => {
+    let isValidForm = true;
+    if (!transactionObj["formIncomeExpense"]) {
+        alert("Income or Expense?");
+        isValidForm = false;
+    }
+    if (!transactionObj["formDescription"]) {
+        alert("You must put some description");
+        isValidForm = false;
+    }
+
+    if (!transactionObj["formAmount"]) {
+        alert("You should put an amount");
+        isValidForm = false;
+    } else if (transactionObj["formAmount"] < 0) {
+        alert("Can not be numbers less than 0");
+        isValidForm = false;
+    }
+    if (!transactionObj["formCategory"]) {
+        alert("You must put some category");
+        isValidForm = false;
+    }
+    return isValidForm;
+}
+
 form.addEventListener("submit", (e) => {
     e.preventDefault()
     let transactionFormData = new FormData(form)
     let transactionObj = convertFormDataToObj(transactionFormData)
-    saveTransactionObj(transactionObj) // save data in LStorage
-    insertRowTable(transactionObj) // insert ROW with form's data
-    form.reset()
+    if (isValidTransactionForm(transactionObj)) { //valid?
+        saveTransactionObj(transactionObj) // save data in LStorage
+        insertRowTable(transactionObj) // insert ROW with form's data
+        form.reset()
+    }
 })
 
 document.addEventListener("DOMContentLoaded", (e) => {
